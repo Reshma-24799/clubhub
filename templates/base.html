@@ -6,35 +6,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ClubHub Events{% endblock %}</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
     <nav class="navbar glass">
         <a href="{% url 'events:home' %}" class="nav-brand">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
             ClubHub
         </a>
-
+        
+        <div class="nav-links">
+            <a href="{% url 'events:home' %}">Home</a>
+            <a href="#">About</a>
+        </div>
     </nav>
 
     <main class="container">
         {% if messages %}
-        {% for message in messages %}
-        <div class="alert {{ message.tags }}"
-            style="padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; background: rgba(255,255,255,0.1); border-left: 4px solid var(--accent-color);">
-            {{ message }}
-        </div>
-        {% endfor %}
+            {% for message in messages %}
+            <div class="glass" style="padding: 1rem; margin-bottom: 1rem; color: var(--accent-color); border-left: 4px solid var(--accent-color);">
+                {{ message }}
+            </div>
+            {% endfor %}
         {% endif %}
+        
         {% block content %}
         {% endblock content %}
     </main>
