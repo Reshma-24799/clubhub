@@ -3,9 +3,9 @@ from .models import Club, Event, TicketType, Registration
 
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ('name', 'president', 'contact_email', 'is_approved')
+    list_display = ('name', 'contact_email', 'is_approved')
     list_filter = ('is_approved',)
-    search_fields = ('name', 'president__username')
+    search_fields = ('name',)
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
