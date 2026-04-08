@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="text-align: center; margin: 4rem 0;">
+    <h1 class="hero-title">Discover Campus Events</h1>
+    <p style="color: var(--text-secondary); font-size: 1.25rem; max-width: 600px; margin: 0 auto 3rem;">
+        Find and RSVP for the best club events, hackathons, and gatherings on campus.
+    </p>
+</div>
+
+<!-- Event Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+    {% if events %}
+    {% for event in events %}
+    <div class="glass event-card" style="padding: 1.5rem; transition: transform 0.3s ease, border-color 0.3s ease;">
+        <h3 style="margin-bottom: 0.5rem;">{{ event.title }}</h3>
+        <p style="color: var(--primary-color); font-weight: 500; font-size: 0.9rem; margin-bottom: 1rem;">
+            Host: {{ event.hosting_club.name }}
+        </p>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">
+            📅 {{ event.date_and_time|date:"F j, Y, g:i a" }}
+        </p>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+            📍 {{ event.location }}
+        </p>
+        <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary"
+            style="width: 100%; text-align: center; box-sizing: border-box;">View Details</a>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="glass" style="grid-column: 1 / -1; padding: 4rem; text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📭</div>
+        <h3>No events listed yet.</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Check back later or ask your club president to
+            post one!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

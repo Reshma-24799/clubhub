@@ -8,7 +8,6 @@ class Club(models.Model):
     name = models.CharField(max_length=255, help_text="E.g., Computer Science Society")
     description = models.TextField(help_text="What the club does.")
     contact_email = models.EmailField(help_text="Official club email.")
-    president = models.ForeignKey(User, on_delete=models.CASCADE, related_name='clubs_managed', help_text="Links to the student who manages the club.")
     is_approved = models.BooleanField(default=False, help_text="A campus administrator must approve the club before they can post events.")
 
     def __str__(self):
