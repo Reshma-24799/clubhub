@@ -15,27 +15,39 @@
 <body>
     <nav class="navbar glass">
         <a href="{% url 'events:home' %}" class="nav-brand">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
             ClubHub
         </a>
-        
+
         <div class="nav-links">
             <a href="{% url 'events:home' %}">Home</a>
-            <a href="#">About</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'events:my_tickets' %}">My Tickets</a>
+            <form action="{% url 'logout' %}" method="post" style="display:inline; margin-left:2rem;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;">Logout</button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'events:signup' %}" class="btn btn-primary"
+                style="margin-left:1.5rem; padding: 0.5rem 1rem;">Sign Up</a>
+            {% endif %}
         </div>
     </nav>
 
     <main class="container">
         {% if messages %}
-            {% for message in messages %}
-            <div class="glass" style="padding: 1rem; margin-bottom: 1rem; color: var(--accent-color); border-left: 4px solid var(--accent-color);">
-                {{ message }}
-            </div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="glass"
+            style="padding: 1rem; margin-bottom: 1rem; color: var(--accent-color); border-left: 4px solid var(--accent-color);">
+            {{ message }}
+        </div>
+        {% endfor %}
         {% endif %}
-        
+
         {% block content %}
         {% endblock content %}
     </main>
