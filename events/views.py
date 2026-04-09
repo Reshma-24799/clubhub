@@ -12,7 +12,10 @@ def home(request):
 def event_detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     ticket_types = event.ticket_types.all()
-    
+    already_registered = False
+    if request.user.is_authenticated:
+        already_registered = Registration.objects.filter(attendee=request.user, event_ticket__event=event).exists()
+
     if request.method == 'POST':
         if not request.user.is_authenticated:
             return redirect('login')
@@ -32,7 +35,7 @@ def event_detail(request, event_id):
             else:
                 messages.error(request, "Sorry, this ticket type is sold out.")
                 
-    return render(request, 'events/event_detail.html', {'event': event, 'ticket_types': ticket_types})
+    return render(request, 'events/event_detail.html', {'event': event, 'ticket_types': ticket_types, 'already_registered': already_registered})
 
 @login_required
 def my_tickets(request):

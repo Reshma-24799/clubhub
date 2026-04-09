@@ -38,8 +38,7 @@
             <label
                 style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.5rem; cursor: pointer; border: 1px solid transparent; transition: border-color 0.3s ease;">
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <input type="radio" name="ticket_type" value="{{ ticket.id }}" required {% if
-                        ticket.quantity_available <=0 %}disabled{% endif %}>
+                    <input type="radio" name="ticket_type" value="{{ ticket.id }}" required {% if ticket.quantity_available <= 0 or already_registered %}disabled{% endif %}>
                     <div>
                         <p style="margin: 0; font-weight: 600; font-size: 1.1rem;">{{ ticket.name }}</p>
                         <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
@@ -63,8 +62,11 @@
         </div>
 
         {% if user.is_authenticated %}
-        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1rem;">RSVP
-            Now</button>
+            {% if already_registered %}
+            <button type="button" class="btn btn-secondary" style="width: 100%; font-size: 1.1rem; padding: 1rem; background: rgba(255,255,255,0.1); color: var(--text-secondary); cursor: not-allowed;" disabled>Already RSVP'd</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1rem;">RSVP Now</button>
+            {% endif %}
         {% else %}
         <a href="{% url 'login' %}?next={{ request.path }}" class="btn"
             style="background: rgba(255,255,255,0.1); color: white; width: 100%; text-align: center; display: block; padding: 1rem; box-sizing: border-box;">Log
