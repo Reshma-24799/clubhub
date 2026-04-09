@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}My Tickets - ClubHub{% endblock %}
+
+{% block content %}
+<div class="glass" style="max-width: 900px; margin: 2rem auto; padding: 2.5rem;">
+    <h1 style="margin-bottom: 2rem;">My Tickets</h1>
+    
+    {% if registrations %}
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            {% for reg in registrations %}
+            <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border: 1px solid rgba(255,255,255,0.05);">
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">
+                        <a href="{% url 'events:event_detail' reg.event_ticket.event.id %}" style="color: white; text-decoration: none;">
+                            {{ reg.event_ticket.event.title }}
+                        </a>
+                    </h3>
+                    <p style="color: var(--primary-color); font-weight: 500; font-size: 0.95rem; margin-bottom: 0.5rem;">
+                        Ticket: {{ reg.event_ticket.name }}
+                    </p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
+                        RSVP'd on {{ reg.registration_date|date:"M j, Y" }}
+                    </p>
+                </div>
+                <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">
+                        📅 {{ reg.event_ticket.event.date_and_time|date:"n/j/y, g:i a" }}
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="display: inline-block; padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border-radius: 1rem; font-size: 0.85rem; font-weight: 600;">
+                            ✓ Registered
+                        </span>
+                        <form method="POST" action="{% url 'events:unregister' reg.id %}" onsubmit="return confirm('Are you sure you want to unregister from this event?');" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                                Unregister
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 3rem 0;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🎫</div>
+            <h3 style="margin-bottom: 0.5rem;">No tickets yet</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">You haven't RSVP'd to any events.</p>
+            <a href="{% url 'events:home' %}" class="btn btn-primary">Browse Events</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
