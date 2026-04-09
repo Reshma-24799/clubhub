@@ -1,5 +1,9 @@
-from django.shortcuts import render
-from .models import Event
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib import messages
+from .models import Event, Club, TicketType, Registration
 
 def home(request):
     events = Event.objects.all().order_by('date_and_time')
@@ -34,3 +38,26 @@ def event_detail(request, event_id):
 def my_tickets(request):
     registrations = Registration.objects.filter(attendee=request.user).order_by('-registration_date')
     return render(request, 'events/my_tickets.html', {'registrations': registrations})
+
+@login_required
+def unregister(request, registration_id):
+    if request.method == 'POST':
+        registration = get_object_or_404(Registration, pk=registration_id, attendee=request.user)
+        ticket = registration.event_ticket
+        registration.delete()
+        ticket.quantity_available += 1
+        ticket.save()
+        messages.success(request, f"Successfully unregistered from {ticket.event.title}.")
+    return redirect('events:my_tickets')
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful! Welcome to ClubHub.")
+            return redirect('events:home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
