@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <nav class="navbar glass">
+    <nav class="navbar" style="border: 2px solid black; padding: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
         <a href="{% url 'events:home' %}" class="nav-brand">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -41,8 +41,7 @@
     <main class="container">
         {% if messages %}
         {% for message in messages %}
-        <div class="glass"
-            style="padding: 1rem; margin-bottom: 1rem; color: var(--accent-color); border-left: 4px solid var(--accent-color);">
+        <div style="border: 2px solid black; padding: 1rem; margin-bottom: 1rem;">
             {{ message }}
         </div>
         {% endfor %}

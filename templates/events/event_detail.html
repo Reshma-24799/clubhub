@@ -1,56 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="glass" style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
-    <a href="{% url 'events:home' %}"
-        style="color: var(--text-secondary); text-decoration: none; display: inline-block; margin-bottom: 1rem;">← Back
-        to Events</a>
+<div style="border: 2px solid black; max-width: 800px; margin: 2rem auto; padding: 2rem;">
+    <a href="{% url 'events:home' %}" style="text-decoration: none; display: inline-block; margin-bottom: 1rem;">← Back to Events</a>
 
-    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">{{ event.title }}</h1>
-    <p style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; margin-bottom: 2rem;">
+    <h1>{{ event.title }}</h1>
+    <p>
         Hosted by: {{ event.hosting_club.name }}
     </p>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
-        <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem;">
-            <p style="color: var(--text-secondary); margin: 0 0 0.5rem 0; font-size: 0.9rem;">📍 Location</p>
-            <p style="margin: 0; font-weight: 500;">{{ event.location }}</p>
+        <div style="border: 2px solid black; padding: 1rem;">
+            <p>📍 Location</p>
+            <p>{{ event.location }}</p>
         </div>
-        <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem;">
-            <p style="color: var(--text-secondary); margin: 0 0 0.5rem 0; font-size: 0.9rem;">📅 Date & Time</p>
-            <p style="margin: 0; font-weight: 500;">{{ event.date_and_time|date:"F j, Y, g:i a" }}</p>
+        <div style="border: 2px solid black; padding: 1rem;">
+            <p>📅 Date & Time</p>
+            <p>{{ event.date_and_time|date:"F j, Y, g:i a" }}</p>
         </div>
     </div>
 
-    <h3 style="margin-bottom: 1rem;">About This Event</h3>
-    <p style="line-height: 1.6; color: var(--text-primary); margin-bottom: 3rem;">
+    <h3>About This Event</h3>
+    <p>
         {{ event.description }}
     </p>
 
-    <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">Select
-        Tickets</h3>
+    <h3>Select Tickets</h3>
 
     {% if ticket_types %}
     <form method="POST" action="{% url 'events:event_detail' event.id %}">
         {% csrf_token %}
         <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
             {% for ticket in ticket_types %}
-            <label
-                style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.5rem; cursor: pointer; border: 1px solid transparent; transition: border-color 0.3s ease;">
+            <label style="display: flex; justify-content: space-between; align-items: center; border: 2px solid black; padding: 1.5rem; cursor: pointer;">
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <input type="radio" name="ticket_type" value="{{ ticket.id }}" required {% if ticket.quantity_available <= 0 or already_registered %}disabled{% endif %}>
                     <div>
-                        <p style="margin: 0; font-weight: 600; font-size: 1.1rem;">{{ ticket.name }}</p>
-                        <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
+                        <p>{{ ticket.name }}</p>
+                        <p>
                             {% if ticket.quantity_available > 0 %}
                             {{ ticket.quantity_available }} remaining
                             {% else %}
-                            <span style="color: #ef4444;">Sold Out</span>
+                            <span>Sold Out</span>
                             {% endif %}
                         </p>
                     </div>
                 </div>
-                <div style="font-size: 1.25rem; font-weight: 700;">
+                <div>
                     {% if ticket.price == 0 %}
                     Free
                     {% else %}
@@ -63,18 +59,16 @@
 
         {% if user.is_authenticated %}
             {% if already_registered %}
-            <button type="button" class="btn btn-secondary" style="width: 100%; font-size: 1.1rem; padding: 1rem; background: rgba(255,255,255,0.1); color: var(--text-secondary); cursor: not-allowed;" disabled>Already RSVP'd</button>
+            <button type="button" class="btn btn-secondary" disabled>Already RSVP'd</button>
             {% else %}
-            <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1rem;">RSVP Now</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">RSVP Now</button>
             {% endif %}
         {% else %}
-        <a href="{% url 'login' %}?next={{ request.path }}" class="btn"
-            style="background: rgba(255,255,255,0.1); color: white; width: 100%; text-align: center; display: block; padding: 1rem; box-sizing: border-box;">Log
-            in to RSVP</a>
+        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary" style="display: block; text-align: center; padding: 1rem;">Log in to RSVP</a>
         {% endif %}
     </form>
     {% else %}
-    <p style="color: var(--text-secondary);">No ticket types have been configured for this event yet.</p>
+    <p>No ticket types have been configured for this event yet.</p>
     {% endif %}
 </div>
-{% endblock %}
+{% endblock %}

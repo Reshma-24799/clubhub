@@ -2,8 +2,8 @@
 
 {% block content %}
 <div style="text-align: center; margin: 4rem 0;">
-    <h1 class="hero-title">Discover Campus Events</h1>
-    <p style="color: var(--text-secondary); font-size: 1.25rem; max-width: 600px; margin: 0 auto 3rem;">
+    <h1>Discover Campus Events</h1>
+    <p>
         Find and RSVP for the best club events, hackathons, and gatherings on campus.
     </p>
 </div>
@@ -11,25 +11,26 @@
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
     {% if events %}
         {% for event in events %}
-        <div class="event-card glass" style="padding: 1.5rem; display: flex; flex-direction: column;">
-            <h3 style="margin-bottom: 0.5rem; font-size: 1.3rem;">{{ event.title }}</h3>
-            <p style="color: var(--accent-color); font-weight: 600; font-size: 0.95rem; margin-bottom: 1.5rem;">
+        <div class="event-card" style="border: 2px solid black; padding: 1.5rem; display: flex; flex-direction: column;">
+            <h3>{{ event.title }}</h3>
+            <p>
                 Host: {{ event.hosting_club.name }}
             </p>
             
-            <div style="margin-bottom: 1.5rem;">
-                <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">📅 {{ event.date_and_time|date:"F j, Y, g:i a" }}</p>
-                <p style="color: var(--text-secondary);">📍 {{ event.location }}</p>
+            <div>
+                <p>📅 {{ event.date_and_time|date:"F j, Y, g:i a" }}</p>
+                <p>📍 {{ event.location }}</p>
             </div>
             
-            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary" style="margin-top: auto; text-align: center;">View Details</a>
+            <br>
+            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary">View Details</a>
         </div>
         {% endfor %}
     {% else %}
-        <div class="glass" style="grid-column: 1 / -1; padding: 4rem; text-align: center;">
+        <div style="border: 2px solid black; grid-column: 1 / -1; padding: 4rem; text-align: center;">
             <div style="font-size: 4rem; margin-bottom: 1rem;">📭</div>
             <h3>No events listed yet.</h3>
-            <p style="color: var(--text-secondary);">Check back later or ask your club president to post one!</p>
+            <p>Check back later or ask your club president to post one!</p>
         </div>
     {% endif %}
 </div>

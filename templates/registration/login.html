@@ -3,18 +3,18 @@
 {% block title %}Log In - ClubHub{% endblock %}
 
 {% block content %}
-<div class="glass" style="max-width: 400px; margin: 4rem auto; padding: 2.5rem; text-align: center;">
+<div style="border: 2px solid black; max-width: 400px; margin: 4rem auto; padding: 2.5rem; text-align: center;">
     <h2 style="margin-bottom: 2rem;">Welcome Back</h2>
     
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <div style="text-align: left; margin-bottom: 1rem;">
             <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Username</label>
-            <input type="text" name="username" required style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; box-sizing: border-box;">
+            <input type="text" name="username" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--primary-color); box-sizing: border-box;">
         </div>
         <div style="text-align: left; margin-bottom: 2rem;">
             <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Password</label>
-            <input type="password" name="password" required style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; box-sizing: border-box;">
+            <input type="password" name="password" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--primary-color); box-sizing: border-box;">
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Log In</button>
         <input type="hidden" name="next" value="{{ next }}">
