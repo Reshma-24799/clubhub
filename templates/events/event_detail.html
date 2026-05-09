@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="border: 2px solid black; max-width: 800px; margin: 2rem auto; padding: 2rem;">
-    <a href="{% url 'events:home' %}" style="text-decoration: none; display: inline-block; margin-bottom: 1rem;">← Back to Events</a>
+<div class="border-shadow" style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+    <a href="{% url 'events:home' %}" style="text-decoration: none; display: inline-block; margin-bottom: 1rem;">← Back
+        to Events</a>
 
     <h1>{{ event.title }}</h1>
     <p>
@@ -10,11 +11,11 @@
     </p>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
-        <div style="border: 2px solid black; padding: 1rem;">
+        <div class="border-shadow" style="padding: 1rem;">
             <p>📍 Location</p>
             <p>{{ event.location }}</p>
         </div>
-        <div style="border: 2px solid black; padding: 1rem;">
+        <div class="border-shadow" style="padding: 1rem;">
             <p>📅 Date & Time</p>
             <p>{{ event.date_and_time|date:"F j, Y, g:i a" }}</p>
         </div>
@@ -32,19 +33,24 @@
         {% csrf_token %}
         <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
             {% for ticket in ticket_types %}
-            <label style="display: flex; justify-content: space-between; align-items: center; border: 2px solid black; padding: 1.5rem; cursor: pointer;">
+            <label
+                style="display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border-radius: 12px; padding: 1.5rem; cursor: pointer;">
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <input type="radio" name="ticket_type" value="{{ ticket.id }}" required {% if ticket.quantity_available <= 0 or already_registered %}disabled{% endif %}>
-                    <div>
-                        <p>{{ ticket.name }}</p>
-                        <p>
-                            {% if ticket.quantity_available > 0 %}
-                            {{ ticket.quantity_available }} remaining
-                            {% else %}
-                            <span>Sold Out</span>
-                            {% endif %}
-                        </p>
-                    </div>
+                    {% if ticket.quantity_available <= 0 or already_registered %} <input type="radio" name="ticket_type"
+                        value="{{ ticket.id }}" required disabled>
+                        {% else %}
+                        <input type="radio" name="ticket_type" value="{{ ticket.id }}" required>
+                        {% endif %}
+                        <div>
+                            <p>{{ ticket.name }}</p>
+                            <p>
+                                {% if ticket.quantity_available > 0 %}
+                                {{ ticket.quantity_available }} remaining
+                                {% else %}
+                                <span>Sold Out</span>
+                                {% endif %}
+                            </p>
+                        </div>
                 </div>
                 <div>
                     {% if ticket.price == 0 %}
@@ -58,17 +64,18 @@
         </div>
 
         {% if user.is_authenticated %}
-            {% if already_registered %}
-            <button type="button" class="btn btn-secondary" disabled>Already RSVP'd</button>
-            {% else %}
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">RSVP Now</button>
-            {% endif %}
+        {% if already_registered %}
+        <button type="button" class="btn btn-secondary" disabled>Already RSVP'd</button>
         {% else %}
-        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary" style="display: block; text-align: center; padding: 1rem;">Log in to RSVP</a>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">RSVP Now</button>
+        {% endif %}
+        {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary"
+            style="display: block; text-align: center; padding: 1rem;">Log in to RSVP</a>
         {% endif %}
     </form>
     {% else %}
     <p>No ticket types have been configured for this event yet.</p>
     {% endif %}
 </div>
-{% endblock %}
+{% endblock %}

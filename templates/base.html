@@ -9,11 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={{ request.timestamp|default:'1.1' }}">
 </head>
 
 <body>
-    <nav class="navbar" style="border: 2px solid black; padding: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <nav class="navbar"
+        style="box-shadow: 0 8px 24px rgba(0,0,0,0.12); border-radius: 12px; padding: 1rem;  display: flex; justify-content: space-between; align-items: center;">
         <a href="{% url 'events:home' %}" class="nav-brand">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -33,7 +34,7 @@
             {% else %}
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'events:signup' %}" class="btn btn-primary"
-                style="margin-left:1.5rem; padding: 0.5rem 1rem;">Sign Up</a>
+                style="margin-left:1.5rem; color: white;padding: 0.5rem 1rem;">Sign Up</a>
             {% endif %}
         </div>
     </nav>
@@ -41,7 +42,7 @@
     <main class="container">
         {% if messages %}
         {% for message in messages %}
-        <div style="border: 2px solid black; padding: 1rem; margin-bottom: 1rem;">
+        <div class="border-shadow" style="padding: 1rem; margin-bottom: 1rem;">
             {{ message }}
         </div>
         {% endfor %}

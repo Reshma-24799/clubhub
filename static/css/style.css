@@ -1,10 +1,7 @@
 :root {
   --primary-color: #0000ff;
   --bg-color: #ffffff;
-  --card-bg: #ffffff;
   --text-primary: #000000;
-  --text-secondary: #000000;
-  --accent-color: #0000ff;
   --font-family: 'Inter', system-ui, sans-serif;
 }
 
@@ -16,17 +13,11 @@ body {
   min-height: 100vh;
 }
 
-.glass {
-  background: var(--card-bg);
-  border: 2px solid var(--primary-color);
-}
-
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  border-bottom: 2px solid var(--primary-color);
 }
 
 .nav-brand {
@@ -51,6 +42,7 @@ body {
 
 .btn {
   padding: 0.5rem 1rem;
+  border-radius: 8px;
   border: 2px solid var(--primary-color);
   background-color: var(--bg-color);
   color: var(--text-primary);
@@ -65,33 +57,13 @@ body {
   color: #ffffff;
 }
 
-.btn-primary:hover {
-  background-color: var(--text-primary);
-  color: #ffffff;
-  border-color: var(--text-primary);
-}
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-h1, h2, h3 {
-  margin-top: 0;
-}
-
-.hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-}
-
-.event-card {
-  border: 2px solid var(--primary-color);
-}
-
-.event-card:hover {
-  border-color: var(--text-primary);
+.border-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
 }
